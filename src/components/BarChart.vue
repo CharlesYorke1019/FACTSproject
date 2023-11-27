@@ -5,7 +5,7 @@
       <canvas id="myChart"></canvas>
     </div>
 
-    <h1>Current Conversion Rate (ETH to EUR): {{ cR }}</h1>
+    <h1>Current Exchange Rate (ETH to EUR): {{ cR }}</h1>
 
   </template>
   
@@ -14,6 +14,7 @@
   import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement} from 'chart.js'
   import { shallowRef } from 'vue';
   import Chart from 'chart.js/auto'
+  
 
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
   
@@ -26,7 +27,7 @@
         cR: 0,
         myChart: null,
         chartData: {
-          labels: [ '12:00 A.M.', '1:00 A.M.', '2:00 A.M', '3:00 A.M', '4:00 A.M', '5:00 A.M', '6:00 A.M', '7:00 A.M', '8:00 A.M', '9:00 A.M', '10:00 A.M', '11:00 A.M', '12:00 P.M', '1:00 P.M', '2:00 P.M', '3:00 P.M', '4:00 P.M', '5:00 P.M', '6:00 P.M', '7:00 P.M', '8:00 P.M', '9:00 P.M', '10:00 P.M', '11:00 P.M' ],
+          labels: [ '12:00 A.M.', '12:01 A.M.','12:02 A.M.','12:03 A.M.','12:04 A.M.','12:05 A.M.','12:06 A.M.','12:07 A.M.','12:08 A.M.','12:09 A.M.','12:10 A.M.', '12:00 A.M.', '12:01 A.M.','12:02 A.M.','12:03 A.M.','12:04 A.M.','12:05 A.M.','12:06 A.M.','12:07 A.M.','12:08 A.M.','12:09 A.M.','12:10 A.M.', ,'12:07 A.M.','12:08 A.M.','12:09 A.M.','12:10 A.M.'],
           datasets: [{
               label: 'ETH ----> EUR',
               data: [],
@@ -37,7 +38,8 @@
           ]
         },
         chartOptions: {
-          responsive: true
+          responsive: true,
+
         }
       }
     },
@@ -48,8 +50,10 @@
         this.myChart.update();
 
         this.cR = info;
-        
+  
       })
+
+
 
     },
     mounted() {
@@ -59,25 +63,26 @@
           {
             type: 'line',
             data: this.chartData,
-            options: {}
+            options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'ETH to EUR Exchange Rate'
+                }
+              }
+            }
           }
         )
       )
-    },
-    computed: {
-      addData(chart, info) {
-        chart.data.datasets[0].data[0] = 24;
-        chart.update();
-      }
     }
-    
   }
 
   </script>
 
 <style scoped>
 #my-chart-id {
-    width: 1250px
+    width: 2000px
 }
 
 #mychart {
