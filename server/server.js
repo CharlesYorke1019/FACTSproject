@@ -20,10 +20,11 @@ const PORT = process.env.PORT || 5000;
 const io = socketIO(server);
 
 const conversionsArr = [];
-const globalData = [];
+var globalData = [];
 
 var index = 0;
 
+// fetchApiData() --> function called whenever we want to target data from the Crypto Compare API //
 async function fetchApiData() {
     const response = await axios.get(
         `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=ETH,EUR`
@@ -58,11 +59,13 @@ let dateHolder = new Date();
 // when the app is first ran, fetchApiData() is called so that we can populate redis with data (could just wait until the setInterval() call below hits, but then redis will not be populated for 60 seconds)
 fetchApiData().then((info) => {
     let conversion = info.EUR / info.ETH
-    // let date = dateHolder.getDate();
-    // let currentTime = new Date().getHours().toString() + ":" + new Date().getMinutes().toString();
     storeInfo(info.ETH, info.EUR, conversion);  
+
+    // index = new Date().getHours().toString() + new Date().getMinutes().toString();
+    // index = new Date().getHours().toString() + new Date().getMinutes().toString() - 1600;
+
     globalData[index] = conversion;
-    index++; 
+    index++;
 });
 
 // every minute (60000 in ms | currently at 10000 so we can test quicker and more efficient) we call fetchApi so that we can update the conversion rate every minute
@@ -71,16 +74,22 @@ setInterval(() => {
         let conversion = info.EUR / info.ETH
         // let date = dateHolder.getDate();
         // let currentTime = new Date().getHours().toString() + ":" + new Date().getMinutes().toString();
-        storeInfo(info.ETH, info.EUR, conversion);  
-        globalData[index] = conversion;
-        index++;
+        storeInfo(info.ETH, info.EUR, conversion);
+        
+        if (index >= 23) {
+            globalData = [conversion];
+            index = 1;
+        } else {
+            globalData[index] = conversion;
+            index++;
+        }
     });
 }, 10000)
 
 // listening for users connecting to the server
 io.on('connection', (socket) => {
     console.log('connection')
-    console.log(globalData);
+    // console.log(globalData);
 
     // when a user connects, we grab the current time and call retrieveInfo() so that we can emit the desired info back to the user (could just wait for the setInterval() call below but users wouldn't get data for 60 seconds on connecting)
     let currentTime = new Date().getHours().toString() + ":" + new Date().getMinutes().toString();
@@ -97,18 +106,7 @@ io.on('connection', (socket) => {
         })
 
 
-    }, 10000)
-
-    // call this the first time a user connects to the server, so that there is no delay in relaying data to the FE (where there would be a delay if I just let the setInterval call take care of it) //
-    // fetchApiData().then((info) => {
-    //     let conversion = info.EUR / info.ETH
-    //     let date = dateHolder.getDate();
-    //     let currentTime = new Date().getHours().toString() + ":" + new Date().getMinutes().toString();
-    //     storeInfo(info.ETH, info.EUR, conversion, currentTime, date);   
-    //     socket.emit('sendingBackData', conversion, currentTime);
-    // });
-
-    
+    }, 10000)    
 
 })
 
