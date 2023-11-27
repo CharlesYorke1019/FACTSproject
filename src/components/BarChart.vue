@@ -2,7 +2,7 @@
 
 <template>
     <div>
-      <canvas id="myChart" width="10000"></canvas>
+      <canvas id="myChart"></canvas>
     </div>
 
     <h1>Current Exchange Rate (ETH to EUR): {{ cR }}</h1>
@@ -14,7 +14,6 @@
   import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement} from 'chart.js'
   import { shallowRef } from 'vue';
   import Chart from 'chart.js/auto'
-  import 'chartjs-adapter-moment';
   
 
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
@@ -55,7 +54,7 @@
         '11:00 P.M.','11:01 P.M.', '11:02 P.M.', '11:03 P.M.', '11:04 P.M.', '11:05 P.M.', '11:06 P.M.', '11:07 P.M.', '11:08 P.M.', '11:09 P.M.', '11:10 P.M.', '11:11 P.M.', '11:12 P.M.', '11:13 P.M.', '11:14 P.M.', '11:15 P.M.', '11:16 P.M.', '11:17 P.M.', '11:18 P.M.', '11:19 P.M.', '11:20 P.M.', '11:21 P.M.', '11:22 P.M.', '11:23 P.M.', '11:24 P.M.', '11:25 P.M.', '11:26 P.M.', '11:27 P.M.', '11:28 P.M.', '11:29 P.M.', '11:30 P.M.', '11:31 P.M.', '11:32 P.M.', '11:33 P.M.', '11:34 P.M.', '11:35 P.M.', '11:36 P.M.', '11:37 P.M.', '11:38 P.M.', '11:39 P.M.', '11:40 P.M.', '11:41 P.M.', '11:42 P.M.', '11:43 P.M.', '11:44 P.M.', '11:45 P.M.', '11:46 P.M.', '11:47 P.M.', '11:48 P.M.', '11:49 P.M.', '11:50 P.M.', '11:51 P.M.', '11:52 P.M.', '11:53 P.M.', '11:54 P.M.', '11:55 P.M.', '11:56 P.M.', '11:57 P.M.', '11:58 P.M.', '11:59 P.M.'
           ],
           datasets: [{
-              label: 'ETH ----> EUR',
+              label: 'Exchange Rate',
               data: [],
               fill: false,
               borderColor: 'rgb(75, 192, 100)',
@@ -78,9 +77,6 @@
         this.cR = info;
   
       })
-
-
-
     },
     mounted() {
       this.myChart = shallowRef(
@@ -90,24 +86,29 @@
             type: 'line',
             data: this.chartData,
             options: {
-              
+              borderWidth: 2,
+              animations: false,
+              spanGaps: true,
               responsive: true,
               elements: {
-                    point:{
-                        radius: 1
-                    }
+                  point:{
+                      radius: 0
+                  }
                 },
               scales: {
                 xAxes: [{
-                  position: 'top',
-                  ticks: {
-                    padding: -100
-                  }
+                  offset: true
                 }],
               },
               layout: {
-                padding: 60,
+                padding: 60
                 
+              },
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Ethereum to Euro Exchange Rate',
+                }
               }
             }
           }
@@ -119,13 +120,6 @@
   </script>
 
 <style scoped>
-#my-chart-id {
-    width: 3000px
-}
 
-#mychart {
-  border-color: white;
-  width: 4000px
-}
 
 </style>
