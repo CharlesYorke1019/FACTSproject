@@ -64,6 +64,10 @@ fetchApiData().then((info) => {
     // index = new Date().getHours().toString() + new Date().getMinutes().toString();
     // index = new Date().getHours().toString() + new Date().getMinutes().toString() - 1600;
 
+    index = new Date().getHours();
+    // set index to what's inside console.log() below when all times of day are set up on front end
+    // console.log(new Date().getHours() * 60  + new Date().getMinutes());
+
     globalData[index] = conversion;
     index++;
 });
