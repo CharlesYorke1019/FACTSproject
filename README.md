@@ -16,3 +16,5 @@ In the case that this code is pulled down with the intention of being used:
 
 
 *** Make sure nothing is running on port 5173 (Vue.js) and port 5000 (node.js server) *** 
+
+*** Files that contain basically all of the application: App.vue, LineChart.vue, server.js ***
