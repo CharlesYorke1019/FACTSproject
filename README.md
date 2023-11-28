@@ -15,4 +15,4 @@ In the case that this code is pulled down with the intention of being used:
 9) grab the localhost in which the Vue.js project is running on (should be displayed when you run "npm run dev") and enter it into the internet to access the website
 
 
-*** Make sure nothing is running on port 5173 (Vue.js app) and port 5000 (node.js server) *** 
+*** Make sure nothing is running on port 5173 (Vue.js) and port 5000 (node.js server) *** 
