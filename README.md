@@ -6,7 +6,7 @@ In the case that this code is pulled down with the intention of being used:
 
 1) Open up a new terminal
 2) change directory (cd) to the project folder in terminal
-3) run "npm install" in the terminal
+3) run "npm install" in the terminal (while in project folder)
 4) run "npm run dev" to run the Vue.js project
 5) open up another terminal
 6) change directory to the project folder (in the new terminal window)
