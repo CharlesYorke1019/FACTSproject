@@ -1,17 +1,13 @@
 <script setup>
-import BarChart from './components/BarChart.vue';
+import LineChart from './components/LineChart.vue';
 </script>
 
 <template>
-  <header>
-  
-  </header>
-
   <div id="divContainer">
 
     <h1>{{ date }}</h1>
 
-    <bar-chart :conversion="conversion" :socket="sock" />
+    <line-chart :conversion="conversion" :socket="sock" />
 
   </div>
 
@@ -22,6 +18,7 @@ import io from 'socket.io-client'
 const socket = io('http://localhost:5000', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 export default {
+  components: { LineChart },
   name: 'App',
   data() {
     return {
@@ -41,7 +38,8 @@ export default {
 <style scoped>
 
 #divContainer {
-  width: 1250px
+  width: 1250px;
+  overflow: 'hidden';
 }
 
 </style>
